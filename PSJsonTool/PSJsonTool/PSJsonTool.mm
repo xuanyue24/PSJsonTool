@@ -1,0 +1,507 @@
+//
+//  PSJsonTool.m
+//  PSJsonTool
+//
+//  Created by 罗烨 on 16/6/22.
+//  Copyright © 2016年 luoye. All rights reserved.
+//
+
+#import "PSJsonTool.h"
+#import "objc/runtime.h"
+
+static NSString *re = @"(?<=T@\")(.*)(?=\",)";
+static NSString *boolClassNameContain = @"TB";
+static NSString *objClassNameContain = @"NS";
+//自动忽略的几个属性,不加会大大影响性能
+static NSString *ignorePropNames = @", hash, superclass, description, debugDescription, ";
+
+
+@implementation PSJsonTool
+
+
+/**
+ * obj 转 json
+ * @param obj
+ * @param jsonAddr
+ */
++(void)objToJson: (id)obj  out: (NSMutableString **)jsonAddr withKey: (NSString *)key baseClass: (Class)baseClass preKey: (NSString *)preKey {
+    NSMutableString *json = *jsonAddr;
+    //初始化json
+    if (json == nil) {
+        json = [[NSMutableString alloc] init];
+    }
+    //是否有额外key
+    BOOL flag = false;
+    if (key != nil) {
+        if (json.length == 0) {
+            [json appendFormat: @"{\"%@\":", key];
+            flag = true;
+        } else {
+            [json appendFormat: @"\"%@\":", key];
+        }
+    }
+    if (obj == nil) {
+        //如果为空
+        [json appendString: [PSJsonTool getNullJsonWithKey: nil baseClass: baseClass preKey: preKey]];
+    } else if ([obj isKindOfClass: [NSArray class]]) {
+        //如果是数组
+        [json appendString: @"["];
+        NSArray *arr = (NSArray *)obj;
+        for (int i = 0; i < arr.count; i++) {
+            if (i != 0) {
+                [json appendString: @","];
+            }
+            [PSJsonTool objToJson: arr[i] out: &json withKey: nil baseClass: [obj class] preKey: preKey];
+        }
+        [json appendString: @"]"];
+    } else if ([obj isKindOfClass: [NSDictionary class]]) {
+        //如果是字典
+        [json appendString: @"{"];
+        int i = 0;
+        NSDictionary *o = obj;
+        for (NSString *keyName in o.allKeys) {
+            if (i != 0) {
+                [json appendString: @","];
+            }
+            [PSJsonTool objToJson: obj[keyName] out: &json withKey: keyName baseClass: [obj class] preKey: keyName];
+            i++;
+        }
+        [json appendString: @"}"];
+    } else if ([obj isKindOfClass: [NSString class]]) {
+        //如果是字符串
+        [json appendString: [PSJsonTool getStringJson: (NSString *)obj withKey: nil baseClass: baseClass preKey: preKey]];
+    } else if ([obj isKindOfClass: [NSNumber class]]) {
+        //如果是数字
+        [json appendString: [PSJsonTool getNumberJson: (NSNumber *)obj withKey: nil baseClass: baseClass preKey: preKey]];
+    } else if ([obj isKindOfClass: [NSDate class]]) {
+        //如果是日期
+        [json appendString: [PSJsonTool getDateJson: (NSDate *)obj withKey: nil baseClass: baseClass preKey: preKey]];
+    } else if ([obj isKindOfClass: [NSNull class]]) {
+        //如果为空类
+        [json appendString: [PSJsonTool getNullJsonWithKey: nil baseClass: baseClass preKey: preKey]];
+    } else if ([obj isKindOfClass: [NSObject class]]) {
+        //如果是一个自定义类
+        
+        
+        
+        [json appendString: @"{"];
+        
+        unsigned int outCount;
+        
+        objc_property_t *props = class_copyPropertyList([obj class], &outCount);
+        
+        int j = 0;
+        for (int i = 0; i < outCount; i++) {
+            
+            objc_property_t prop = props[i];
+            NSString *propName = [[NSString alloc] initWithCString: property_getName(prop) encoding: NSUTF8StringEncoding];
+            if ([ignorePropNames rangeOfString: propName].location != NSNotFound) {
+                continue;
+            }
+            if ([[obj class] conformsToProtocol: @protocol(PSJsonSerializationDelegate)] && [[obj class] respondsToSelector: @selector(IgnoreKeyWhenConvertToJson)]) {
+                NSArray *tjika = [[obj class] IgnoreKeyWhenConvertToJson];
+                if ([tjika containsObject: propName]) {
+                    continue;
+                }
+            }
+            
+            if (j != 0) {
+                [json appendString: @","];
+            }
+            j++;
+            id value = [obj valueForKey: propName];
+            NSString *jsonKeyName = [NSString stringWithString: propName];
+            if ([[obj class] conformsToProtocol: @protocol(PSJsonSerializationDelegate)]) {
+                NSDictionary *jsonKeyPathsOfProp = [[obj class] jsonKeyConvertToPropertyKey];
+                if (jsonKeyPathsOfProp != nil && [[jsonKeyPathsOfProp allKeys] containsObject: propName]) {
+                    jsonKeyName = [jsonKeyPathsOfProp objectForKey: propName];
+                }
+            }
+            [PSJsonTool objToJson: value out: &json withKey: jsonKeyName baseClass: [obj class] preKey: propName];
+#ifdef DEBUG
+            //            NSLog(@"key: %@", propName);
+#endif
+            
+        }
+        delete [] props;
+        
+        
+        
+        [json appendString: @"}"];
+    }
+    
+    if (flag == true) {
+        [json appendString: @"}"];
+    }
+    
+    *jsonAddr = json;
+}
+
+/**
+ *  obj 转 json
+ *
+ *  @param obj obj
+ *  @param key key
+ */
++(NSString *)objToJson: (id)obj withKey: (NSString *)key {
+    if (obj == nil) {
+        return nil;
+    }
+    NSMutableString *json = nil;
+    [PSJsonTool objToJson: obj out: &json withKey: key baseClass: [obj class] preKey: key];
+    
+    return json;
+}
+
+/**
+ * json 转 obj
+ * @param json
+ * @param mclass
+ * @result (id)
+ */
++(id)jsonToObj: (NSString *)json asClass: (Class)mclass  {
+    if (json == nil) {
+        return nil;
+    }
+    return [PSJsonTool jsonToObj: json asClass: mclass WithKeyClass: nil];
+}
+
+/**
+ * json 转 obj
+ * @param json
+ * @param mclass
+ * @param keyClass
+ * @result (id)
+ */
++(id)jsonToObj:(NSString *)json asClass:(Class)mclass WithKeyClass: (NSDictionary *) keyClass {
+    //id obj = nil;
+    //初始化对象
+    //obj = [[mclass alloc] init];
+    //将json转化为字典
+    NSError *error = nil;
+    id jsonObj = [NSJSONSerialization JSONObjectWithData: [json dataUsingEncoding: NSUTF8StringEncoding] options: kNilOptions error: &error];
+    
+    if (jsonObj == nil) {
+        return jsonObj;
+    }
+
+    
+    @try {
+        return [PSJsonTool rootObjToObj: jsonObj asClass: mclass WithKeyClass: keyClass ForKey: @"msroot" baseClass: mclass];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    @finally {
+        
+    }
+    
+}
+
+#pragma mark - 根对象转换为指定oc对象相关方法
+
+/**
+ * rootObj 转 obj
+ * @param json 需转化的json字符串
+ * @param mclass  需转化成的objc类
+ * @param keyClass 如果有某个objc类属性为NSArray或者NSDictionay, 可以传入@{@"asdf"(该属性键): (数组每项的类型或者字典每个值的类型),....},否则传nil
+ *
+ * @result (id) 转化后的objc对象
+ */
++(id)rootObjToObj: (id)jsonObj asClass:(Class)mclass WithKeyClass: (NSDictionary *) keyClass {
+    if (jsonObj == nil) {
+        return jsonObj;
+    }
+    
+    @try {
+        return [PSJsonTool rootObjToObj: jsonObj asClass: mclass WithKeyClass: keyClass ForKey: @"msroot" baseClass: mclass];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    @finally {
+        
+    }
+    
+}
+
+
++(id)rootObjToObj: (id)jsonObj asClass:(Class)mclass {
+    if (jsonObj == nil) {
+        return jsonObj;
+    }
+    
+    @try {
+        return [PSJsonTool rootObjToObj: jsonObj asClass: mclass WithKeyClass: nil ForKey: @"msroot" baseClass: mclass];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    @finally {
+        
+    }
+    
+}
+
+#pragma mark - 实现转换用到的私有方法
+
++(id)rootObjToObj: (id)jsonObj asClass:(Class)mclass WithKeyClass: (NSDictionary *) keyClass ForKey:(NSString *)keyName baseClass: (Class)baseClass {
+    
+    id obj;
+    
+    if ([baseClass conformsToProtocol: @protocol(PSJsonSerializationDelegate)] && [baseClass respondsToSelector: @selector(keyClass)]) {
+        NSDictionary *keyClassDic = [baseClass keyClass];
+        if (keyClassDic != nil && keyClassDic.allKeys.count > 0) {
+            keyClass = keyClassDic;
+        }
+    }
+    
+    if (jsonObj != nil) {
+        
+        if ([mclass isSubclassOfClass: [NSDictionary class]] && [jsonObj isKindOfClass: [NSDictionary class]]) {
+            if (keyClass != nil && [keyClass.allKeys containsObject: keyName]) {
+                mclass = (Class)(keyClass[keyName]);
+            }
+            
+            NSDictionary *dic = (NSDictionary *)jsonObj;
+            obj = [[NSMutableDictionary alloc] init];
+            for (NSString *key in dic) {
+                Class tclass = mclass;
+                if ([dic[key] isKindOfClass: [NSArray class]]) { //[dic[key] isKindOfClass: [NSDictionary class]] ||
+                    tclass = [dic[key] class];
+                }
+                if (keyClass != nil && [keyClass.allKeys containsObject: key]) {
+                    tclass = (Class)(keyClass[key]);
+                }
+                
+                id value = [PSJsonTool rootObjToObj: dic[key] asClass: tclass WithKeyClass: keyClass ForKey:keyName baseClass: tclass];
+                if (value && ![value isKindOfClass: [NSNull class]]) {
+                    [obj setValue: value forKey: key];
+                }
+            }
+        } else if ([mclass isSubclassOfClass: [NSArray class]] && [jsonObj isKindOfClass: [NSArray class]]) {
+            if (keyClass !=nil && [keyClass.allKeys containsObject: keyName]) {
+                mclass = (Class)(keyClass[keyName]);
+            }
+            NSArray *arr = (NSArray *)jsonObj;
+            obj = [[NSMutableArray alloc] init];
+            for (int j = 0; j < arr.count; j++) {
+                Class tclass = mclass;
+                if ([arr[j] isKindOfClass: [NSArray class]]) { //[arr[j] isKindOfClass: [NSDictionary class]] ||
+                    tclass = [arr[j] class];
+                }
+                id value = [PSJsonTool rootObjToObj: arr[j] asClass: tclass WithKeyClass: keyClass ForKey:keyName baseClass: tclass];
+                
+                if (value && ![value isKindOfClass: [NSNull class]]) {
+                    [obj addObject: value];
+                }
+                
+            }
+        } else if ([mclass isSubclassOfClass: [NSDate class]]) {
+            if ([jsonObj isKindOfClass: [NSNull class]]) {
+                obj = nil;
+            } else {
+                if ([baseClass conformsToProtocol: @protocol(PSJsonSerializationDelegate)] && [baseClass respondsToSelector: @selector(jsonValueConverter)]) {
+                    NSDictionary *cvtDic = [baseClass jsonValueConverter];
+                    if (cvtDic != nil && [cvtDic.allKeys containsObject: keyName]) {
+                        obj = ((NSObject *(^)(NSObject *time))[cvtDic objectForKey: keyName])(jsonObj);
+                    } else {
+                        obj = [NSDate dateWithTimeIntervalSince1970: [((NSNumber *)jsonObj) doubleValue]/1000];
+                    }
+                } else {
+                    obj = [NSDate dateWithTimeIntervalSince1970: [((NSNumber *)jsonObj) doubleValue]/1000];
+                }
+            }
+        } else if (![mclass isSubclassOfClass: [NSString class]] &&
+                   ![mclass isSubclassOfClass: [NSNumber class]] &&
+                   ![mclass isSubclassOfClass: [NSDictionary class]] &&
+                   ![mclass isSubclassOfClass: [NSArray class]] &&
+                   ![mclass isSubclassOfClass: [NSDate class]] &&
+                   [mclass isSubclassOfClass: [NSObject class]]) {
+            
+            NSDictionary *dic = nil;
+            if ([jsonObj isKindOfClass: [NSDictionary class]]) {
+                dic = (NSDictionary *)jsonObj;
+            } else if ([jsonObj isKindOfClass: [NSString class]]) {
+                NSError *error = nil;
+                dic = (NSDictionary *)[NSJSONSerialization JSONObjectWithData: [jsonObj dataUsingEncoding: NSUTF8StringEncoding] options: kNilOptions error: &error];
+                if (error != nil) {
+                    if ([jsonObj isKindOfClass: [NSNull class]]) {
+                        obj = nil;
+                    } else {
+                        obj = jsonObj;
+                    }
+                    return obj;
+                }
+            } else {
+                if ([jsonObj isKindOfClass: [NSNull class]]) {
+                    obj = nil;
+                } else {
+                    obj = jsonObj;
+                }
+                return obj;
+            }
+            
+            obj = [[mclass alloc] init];
+            
+            //遍历属性
+            unsigned int outCount;
+            
+            objc_property_t *props = class_copyPropertyList(mclass, &outCount);
+            
+            
+            for (int i = 0; i < outCount; i++) {
+                objc_property_t prop = props[i];
+                NSString *propName = [[NSString alloc] initWithCString: property_getName(prop) encoding: NSUTF8StringEncoding];
+                if ([ignorePropNames rangeOfString: [NSString stringWithFormat: @", %@, ", propName]].location != NSNotFound) {
+                    continue;
+                }
+                NSString *dicPropName = [NSString stringWithString: propName];
+                
+                if ([[obj class] conformsToProtocol: @protocol(PSJsonSerializationDelegate)]) {
+                    NSDictionary *jsonKeyPathsOfProp = [[obj class] jsonKeyConvertToPropertyKey];
+                    if (jsonKeyPathsOfProp != nil && [[jsonKeyPathsOfProp allKeys] containsObject: propName]) {
+                        dicPropName = [jsonKeyPathsOfProp objectForKey: propName];
+                    }
+                }
+                NSString *propAttr = [[NSString alloc] initWithCString: property_getAttributes(prop) encoding: NSUTF8StringEncoding];
+                if (propName == nil) {
+                    continue;
+                } else {
+                    
+                    NSRange range = [propAttr rangeOfString: re options: NSRegularExpressionSearch];
+                    if ([dic.allKeys containsObject: dicPropName]) {
+                        if (range.length != 0) {
+                            NSString *propClassName = [propAttr substringWithRange: range];
+#ifdef DEBUG
+                            //                            NSLog(@"propClassName: %@", propClassName);
+#endif
+                            if ([dic.allKeys containsObject: dicPropName]) {
+                                Class propClass = objc_getClass([propClassName UTF8String]);
+                                id value = [PSJsonTool rootObjToObj: dic[dicPropName] asClass: propClass WithKeyClass: keyClass ForKey: propName baseClass: mclass];
+                                
+                                if (value && ![value isKindOfClass: [NSNull class]]) {
+                                    [obj setValue: value forKey: propName];
+                                }
+                            }
+                        } else {
+                            if (dic[dicPropName] == nil) {
+                                
+                            } else {
+                                id value = [PSJsonTool rootObjToObj: dic[dicPropName] asClass: [NSNumber class] WithKeyClass: keyClass ForKey: propName baseClass: mclass];
+                                if (value && ![value isKindOfClass: [NSNull class]]) {
+                                    [obj setValue: value forKey: propName];
+                                }
+                                
+                            }
+                            
+                        }
+                    }
+                }
+                
+            }
+            delete [] props;
+        } else if ([jsonObj isKindOfClass: [NSNull class]]) {
+            obj = nil;
+        } else {
+            if ([baseClass conformsToProtocol: @protocol(PSJsonSerializationDelegate)] && [baseClass respondsToSelector: @selector(jsonValueConverter)]) {
+                NSDictionary *cvtDic = [baseClass jsonValueConverter];
+                if (cvtDic != nil && [cvtDic.allKeys containsObject: keyName]) {
+                    obj = ((id(^)(id obj))[cvtDic objectForKey: keyName])(jsonObj);
+                    
+                } else {
+                    obj = jsonObj;
+                }
+            } else {
+                obj = jsonObj;
+            }
+        }
+        
+        
+    }
+    if (obj == nil) {
+        return [[NSNull alloc] init];
+    }
+    return obj;
+}
+
++(NSString *)getStringJson: (NSString *)str withKey: (NSString *)key baseClass: (Class)baseClass preKey: (NSString *)preKey {
+    NSString *json = nil;
+    if ([baseClass conformsToProtocol: @protocol(PSJsonSerializationDelegate)] && [baseClass respondsToSelector: @selector(objcValueConverter)]) {
+        NSDictionary *cvtDic = [baseClass objcValueConverter];
+        if (cvtDic != nil && [cvtDic.allKeys containsObject: preKey]) {
+            json = ((NSString *(^)(NSObject *obj))[cvtDic objectForKey: preKey])(str);
+        } else {
+            json = [NSString stringWithFormat: @"\"%@\"", [str stringByReplacingOccurrencesOfString: @"\"" withString: @"\\\""]];
+        }
+    } else {
+        json = [NSString stringWithFormat: @"\"%@\"", [str stringByReplacingOccurrencesOfString: @"\"" withString: @"\\\""]];
+    }
+    if (key == nil) {
+        
+        return json;
+    }
+    return [NSString stringWithFormat: @"\"%@\":%@", key, json];
+}
+
++(NSString *)getNumberJson: (NSNumber *)num withKey: (NSString *)key baseClass: (Class)baseClass preKey: (NSString *)preKey {
+    NSString *json = nil;
+    if ([baseClass conformsToProtocol: @protocol(PSJsonSerializationDelegate)] && [baseClass respondsToSelector: @selector(objcValueConverter)]) {
+        NSDictionary *cvtDic = [baseClass objcValueConverter];
+        if (cvtDic != nil && [cvtDic.allKeys containsObject: preKey]) {
+            json = ((NSString *(^)(NSObject *obj))[cvtDic objectForKey: preKey])(num);
+        } else {
+            json = [NSString stringWithFormat: @"%@", num];
+        }
+    } else {
+        json = [NSString stringWithFormat: @"%@", num];;
+    }
+    if (key == nil) {
+        
+        return json;
+    }
+    return [NSString stringWithFormat: @"\"%@\":%@", key, json];
+}
++(NSString *)getNullJsonWithKey: (NSString *)key baseClass: (Class)baseClass preKey: (NSString *)preKey {
+    NSString *json = nil;
+    if ([baseClass conformsToProtocol: @protocol(PSJsonSerializationDelegate)] && [baseClass respondsToSelector: @selector(objcValueConverter)]) {
+        NSDictionary *cvtDic = [baseClass objcValueConverter];
+        if (cvtDic != nil && [cvtDic.allKeys containsObject: preKey]) {
+            json = ((NSString *(^)())[cvtDic objectForKey: preKey])();
+        } else {
+            json = @"null";
+        }
+    } else {
+        json = @"null";;
+    }
+    if (key == nil) {
+        
+        return json;
+    }
+    return [NSString stringWithFormat: @"\"%@\":%@", key, json];
+}
++(NSString *)getBoolJson: (BOOL)flag withKey: (NSString *)key baseClass: (Class)baseClass preKey: (NSString *)preKey {
+    return @"";
+}
++(NSString *)getDateJson: (NSDate *) date withKey: (NSString *)key baseClass: (Class)baseClass preKey: (NSString *)preKey {
+    NSString *json = nil;
+    if ([baseClass conformsToProtocol: @protocol(PSJsonSerializationDelegate)] && [baseClass respondsToSelector: @selector(objcValueConverter)]) {
+        NSDictionary *cvtDic = [baseClass objcValueConverter];
+        if (cvtDic != nil && [cvtDic.allKeys containsObject: preKey]) {
+            json = ((NSString *(^)(NSObject *obj))[cvtDic objectForKey: preKey])(date);
+        } else {
+            json = [NSString stringWithFormat: @"%qi", (long long)([date timeIntervalSince1970]*1000)];
+        }
+    } else {
+        json = [NSString stringWithFormat: @"%qi", (long long)([date timeIntervalSince1970]*1000)];
+    }
+    if (key == nil) {
+        
+        return json;
+    }
+    return [NSString stringWithFormat: @"\"%@\":%@", key, json];
+}
+
+
+
+@end

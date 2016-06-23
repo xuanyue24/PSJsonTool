@@ -1,0 +1,525 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FD81734B1D1A734D00FA65ED /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD81734A1D1A734D00FA65ED /* main.m */; };
+		FD81734E1D1A734D00FA65ED /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD81734D1D1A734D00FA65ED /* AppDelegate.m */; };
+		FD8173511D1A734D00FA65ED /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8173501D1A734D00FA65ED /* ViewController.m */; };
+		FD8173541D1A734D00FA65ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD8173521D1A734D00FA65ED /* Main.storyboard */; };
+		FD8173561D1A734D00FA65ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD8173551D1A734D00FA65ED /* Assets.xcassets */; };
+		FD8173591D1A734D00FA65ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD8173571D1A734D00FA65ED /* LaunchScreen.storyboard */; };
+		FD8173641D1A734E00FA65ED /* PSJsonToolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8173631D1A734E00FA65ED /* PSJsonToolTests.m */; };
+		FD81736F1D1A734E00FA65ED /* PSJsonToolUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD81736E1D1A734E00FA65ED /* PSJsonToolUITests.m */; };
+		FD81737E1D1A736E00FA65ED /* PSJsonTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = FD81737D1D1A736E00FA65ED /* PSJsonTool.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FD8173601D1A734E00FA65ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD81733E1D1A734D00FA65ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD8173451D1A734D00FA65ED;
+			remoteInfo = PSJsonTool;
+		};
+		FD81736B1D1A734E00FA65ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD81733E1D1A734D00FA65ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD8173451D1A734D00FA65ED;
+			remoteInfo = PSJsonTool;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FD8173461D1A734D00FA65ED /* PSJsonTool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PSJsonTool.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD81734A1D1A734D00FA65ED /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FD81734C1D1A734D00FA65ED /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		FD81734D1D1A734D00FA65ED /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FD81734F1D1A734D00FA65ED /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		FD8173501D1A734D00FA65ED /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		FD8173531D1A734D00FA65ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FD8173551D1A734D00FA65ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FD8173581D1A734D00FA65ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FD81735A1D1A734D00FA65ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD81735F1D1A734E00FA65ED /* PSJsonToolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PSJsonToolTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD8173631D1A734E00FA65ED /* PSJsonToolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSJsonToolTests.m; sourceTree = "<group>"; };
+		FD8173651D1A734E00FA65ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD81736A1D1A734E00FA65ED /* PSJsonToolUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PSJsonToolUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD81736E1D1A734E00FA65ED /* PSJsonToolUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSJsonToolUITests.m; sourceTree = "<group>"; };
+		FD8173701D1A734E00FA65ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD81737C1D1A736E00FA65ED /* PSJsonTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSJsonTool.h; sourceTree = "<group>"; };
+		FD81737D1D1A736E00FA65ED /* PSJsonTool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PSJsonTool.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FD8173431D1A734D00FA65ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD81735C1D1A734E00FA65ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD8173671D1A734E00FA65ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FD81733D1D1A734D00FA65ED = {
+			isa = PBXGroup;
+			children = (
+				FD8173481D1A734D00FA65ED /* PSJsonTool */,
+				FD8173621D1A734E00FA65ED /* PSJsonToolTests */,
+				FD81736D1D1A734E00FA65ED /* PSJsonToolUITests */,
+				FD8173471D1A734D00FA65ED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FD8173471D1A734D00FA65ED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FD8173461D1A734D00FA65ED /* PSJsonTool.app */,
+				FD81735F1D1A734E00FA65ED /* PSJsonToolTests.xctest */,
+				FD81736A1D1A734E00FA65ED /* PSJsonToolUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FD8173481D1A734D00FA65ED /* PSJsonTool */ = {
+			isa = PBXGroup;
+			children = (
+				FD81734C1D1A734D00FA65ED /* AppDelegate.h */,
+				FD81734D1D1A734D00FA65ED /* AppDelegate.m */,
+				FD81734F1D1A734D00FA65ED /* ViewController.h */,
+				FD8173501D1A734D00FA65ED /* ViewController.m */,
+				FD8173521D1A734D00FA65ED /* Main.storyboard */,
+				FD8173551D1A734D00FA65ED /* Assets.xcassets */,
+				FD8173571D1A734D00FA65ED /* LaunchScreen.storyboard */,
+				FD81735A1D1A734D00FA65ED /* Info.plist */,
+				FD8173491D1A734D00FA65ED /* Supporting Files */,
+				FD81737C1D1A736E00FA65ED /* PSJsonTool.h */,
+				FD81737D1D1A736E00FA65ED /* PSJsonTool.mm */,
+			);
+			path = PSJsonTool;
+			sourceTree = "<group>";
+		};
+		FD8173491D1A734D00FA65ED /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FD81734A1D1A734D00FA65ED /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FD8173621D1A734E00FA65ED /* PSJsonToolTests */ = {
+			isa = PBXGroup;
+			children = (
+				FD8173631D1A734E00FA65ED /* PSJsonToolTests.m */,
+				FD8173651D1A734E00FA65ED /* Info.plist */,
+			);
+			path = PSJsonToolTests;
+			sourceTree = "<group>";
+		};
+		FD81736D1D1A734E00FA65ED /* PSJsonToolUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FD81736E1D1A734E00FA65ED /* PSJsonToolUITests.m */,
+				FD8173701D1A734E00FA65ED /* Info.plist */,
+			);
+			path = PSJsonToolUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FD8173451D1A734D00FA65ED /* PSJsonTool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD8173731D1A734E00FA65ED /* Build configuration list for PBXNativeTarget "PSJsonTool" */;
+			buildPhases = (
+				FD8173421D1A734D00FA65ED /* Sources */,
+				FD8173431D1A734D00FA65ED /* Frameworks */,
+				FD8173441D1A734D00FA65ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PSJsonTool;
+			productName = PSJsonTool;
+			productReference = FD8173461D1A734D00FA65ED /* PSJsonTool.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FD81735E1D1A734E00FA65ED /* PSJsonToolTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD8173761D1A734E00FA65ED /* Build configuration list for PBXNativeTarget "PSJsonToolTests" */;
+			buildPhases = (
+				FD81735B1D1A734E00FA65ED /* Sources */,
+				FD81735C1D1A734E00FA65ED /* Frameworks */,
+				FD81735D1D1A734E00FA65ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FD8173611D1A734E00FA65ED /* PBXTargetDependency */,
+			);
+			name = PSJsonToolTests;
+			productName = PSJsonToolTests;
+			productReference = FD81735F1D1A734E00FA65ED /* PSJsonToolTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FD8173691D1A734E00FA65ED /* PSJsonToolUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD8173791D1A734E00FA65ED /* Build configuration list for PBXNativeTarget "PSJsonToolUITests" */;
+			buildPhases = (
+				FD8173661D1A734E00FA65ED /* Sources */,
+				FD8173671D1A734E00FA65ED /* Frameworks */,
+				FD8173681D1A734E00FA65ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FD81736C1D1A734E00FA65ED /* PBXTargetDependency */,
+			);
+			name = PSJsonToolUITests;
+			productName = PSJsonToolUITests;
+			productReference = FD81736A1D1A734E00FA65ED /* PSJsonToolUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FD81733E1D1A734D00FA65ED /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = luoye;
+				TargetAttributes = {
+					FD8173451D1A734D00FA65ED = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					FD81735E1D1A734E00FA65ED = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = FD8173451D1A734D00FA65ED;
+					};
+					FD8173691D1A734E00FA65ED = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = FD8173451D1A734D00FA65ED;
+					};
+				};
+			};
+			buildConfigurationList = FD8173411D1A734D00FA65ED /* Build configuration list for PBXProject "PSJsonTool" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FD81733D1D1A734D00FA65ED;
+			productRefGroup = FD8173471D1A734D00FA65ED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FD8173451D1A734D00FA65ED /* PSJsonTool */,
+				FD81735E1D1A734E00FA65ED /* PSJsonToolTests */,
+				FD8173691D1A734E00FA65ED /* PSJsonToolUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FD8173441D1A734D00FA65ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD8173591D1A734D00FA65ED /* LaunchScreen.storyboard in Resources */,
+				FD8173561D1A734D00FA65ED /* Assets.xcassets in Resources */,
+				FD8173541D1A734D00FA65ED /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD81735D1D1A734E00FA65ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD8173681D1A734E00FA65ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FD8173421D1A734D00FA65ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD8173511D1A734D00FA65ED /* ViewController.m in Sources */,
+				FD81734E1D1A734D00FA65ED /* AppDelegate.m in Sources */,
+				FD81737E1D1A736E00FA65ED /* PSJsonTool.mm in Sources */,
+				FD81734B1D1A734D00FA65ED /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD81735B1D1A734E00FA65ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD8173641D1A734E00FA65ED /* PSJsonToolTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD8173661D1A734E00FA65ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD81736F1D1A734E00FA65ED /* PSJsonToolUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FD8173611D1A734E00FA65ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD8173451D1A734D00FA65ED /* PSJsonTool */;
+			targetProxy = FD8173601D1A734E00FA65ED /* PBXContainerItemProxy */;
+		};
+		FD81736C1D1A734E00FA65ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD8173451D1A734D00FA65ED /* PSJsonTool */;
+			targetProxy = FD81736B1D1A734E00FA65ED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FD8173521D1A734D00FA65ED /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FD8173531D1A734D00FA65ED /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FD8173571D1A734D00FA65ED /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FD8173581D1A734D00FA65ED /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FD8173711D1A734E00FA65ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		FD8173721D1A734E00FA65ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FD8173741D1A734E00FA65ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = PSJsonTool/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.luoye.PSJsonTool;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FD8173751D1A734E00FA65ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = PSJsonTool/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.luoye.PSJsonTool;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		FD8173771D1A734E00FA65ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = PSJsonToolTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.luoye.PSJsonToolTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PSJsonTool.app/PSJsonTool";
+			};
+			name = Debug;
+		};
+		FD8173781D1A734E00FA65ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = PSJsonToolTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.luoye.PSJsonToolTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PSJsonTool.app/PSJsonTool";
+			};
+			name = Release;
+		};
+		FD81737A1D1A734E00FA65ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = PSJsonToolUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.luoye.PSJsonToolUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = PSJsonTool;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		FD81737B1D1A734E00FA65ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = PSJsonToolUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.luoye.PSJsonToolUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = PSJsonTool;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FD8173411D1A734D00FA65ED /* Build configuration list for PBXProject "PSJsonTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD8173711D1A734E00FA65ED /* Debug */,
+				FD8173721D1A734E00FA65ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD8173731D1A734E00FA65ED /* Build configuration list for PBXNativeTarget "PSJsonTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD8173741D1A734E00FA65ED /* Debug */,
+				FD8173751D1A734E00FA65ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		FD8173761D1A734E00FA65ED /* Build configuration list for PBXNativeTarget "PSJsonToolTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD8173771D1A734E00FA65ED /* Debug */,
+				FD8173781D1A734E00FA65ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		FD8173791D1A734E00FA65ED /* Build configuration list for PBXNativeTarget "PSJsonToolUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD81737A1D1A734E00FA65ED /* Debug */,
+				FD81737B1D1A734E00FA65ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FD81733E1D1A734D00FA65ED /* Project object */;
+}
