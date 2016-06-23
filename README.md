@@ -1,5 +1,5 @@
 # PSJsonTool
-transform between json and objctive
+transform between json and objctive-c class
 
 ## Usage
 import PSJsonTool.h and PSJsonTool.mm into your project 
